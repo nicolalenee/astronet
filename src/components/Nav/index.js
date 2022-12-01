@@ -1,8 +1,7 @@
-/** @jsx */
-import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as React from 'react';
 import Icon from '../../assets/images/icon.png'
+
 
 const NavWrap = styled.nav`
   display: flex;
@@ -12,21 +11,35 @@ const NavWrap = styled.nav`
 `;
 const List = styled.ul`
   display: flex;
-  justify-content: space-around
+  justify-content: space-around;
 `;
 const ListItem = styled.li`
   font-size: 12px;
   list-style: none;
   margin: 5px;
 `
-export default function Nav() {
-
-  const [isLinkClicked, setLink] = React.useState(false);
+const Anchor = styled.a`
+  text-decoration: none;
+  font-weight: bold;
+  color: #ECD4FF;
+  &:hover {
+    color: #FFD4E2;
+  };
+  
+  transition: color .4s ease-in-out;
+`
+export default function Nav(props) {
+  const {
+    tabs =[],
+    setCurrentTab,
+    currentTab
+  } = props;
+  const [isLinkClicked, setLink] = React.useState(true);
 
   const handleClick = () => {
     setLink(!isLinkClicked);
   }
-  const navElements=['Home', 'Services', 'Schedule a Service', 'Leave a Review'];
+  
 
   return (
     <div>
@@ -36,8 +49,14 @@ export default function Nav() {
           </div>
           <div className="nav-right">
             <List>
-             {navElements.map((element) => (
-              <ListItem key={element}><a href={"#" + element.toLowerCase()}>{element}</a></ListItem>
+             {tabs.map((tab) => (
+              <ListItem key={tab}>
+                <Anchor 
+                  href={"#" + tab.toLowerCase()} 
+                  onClick={() => setCurrentTab(tab)}>
+                    {tab}
+                </Anchor>
+              </ListItem>
              ))}
             </List>
           </div>
